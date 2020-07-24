@@ -1,2 +1,2 @@
 # Hangman_Game
-Game nhiều thiếu sót!
+HANGMAN Level: EASY
