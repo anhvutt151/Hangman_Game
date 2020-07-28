@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1595561914 source:c:\users\admin\documents\c++\hangman\main.cpp
+	<iostream>
+	<cstdlib>
+	<cstring>
+	<ctime>
+
+1595959353 source:c:\users\admin\documents\c++\hangman_game\hangman\main.cpp
+	<iostream>
+	<cstdlib>
+	<cstring>
+	<ctime>
+	<vector>
+	<fstream>
+
