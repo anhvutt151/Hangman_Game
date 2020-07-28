@@ -2,16 +2,31 @@
 #include <cstdlib>
 #include <cstring>
 #include<ctime>
+#include<vector>
+#include<fstream>
 using namespace std;
-const int tongLuotChoi = 7;
+
+const int TONGLUOTCHOI = 7;
+const int numberLose = 0;
+vector<string> listWord;
+
+void listWordEnglish(){
+    ifstream file("List_basic_word_english.txt");
+    if(file.is_open()){
+        while(!file.eof()){
+            string val;
+            getline(file,val);
+            if(file)
+                listWord.push_back(val);
+                else break;
+        }
+    }
+}
 string randomWord(){
-    string wordList[]= {"tent","pile","hello","plate","knife","glass","how","who", "perfect","genius", "project","story",
-    "print","world","company","moto","music","person","people","number","meat","fork","data","food","juice","apple","bird",
-    "video","movie","paper","month","fish","road","soup","math","wood","office","city","blood","gold","photo","actor"};
-    int soTu = sizeof(wordList) / sizeof(string);
+    int soTu = listWord.size();
     srand((time(0)));   // tao ngau nhien moi lan Run
     int randomIndex = rand() % soTu;  // ngau nhien tu 1 den soTu -1
-    return wordList[randomIndex];
+    return listWord[randomIndex];
 }
 
 void dohoa(int pictureNumber){
@@ -26,18 +41,7 @@ void dohoa(int pictureNumber){
                         "\t\t |                                     \n"
                         "\t\t |____________________________________ \n\n\n" ;
     }
-    else if(pictureNumber == 0)
-    {
-        cout <<         "\n\t\t  ____________________________________  \n"
-                        "\t\t |       |                            \n"
-                        "\t\t |       |                             \n"
-                        "\t\t |       |                             \n"
-                        "\t\t |                                     \n"
-                        "\t\t |                                     \n"
-                        "\t\t |                                     \n"
-                        "\t\t |                                     \n"
-                        "\t\t |____________________________________ \n\n\n" ;
-    }
+
     else if(pictureNumber == 6){
         cout <<         "\n\t\t  ____________________________________  \n"
                         "\t\t |       |                             \n"
@@ -60,18 +64,8 @@ void dohoa(int pictureNumber){
                         "\t\t |                                     \n"
                         "\t\t |____________________________________\n\n\n" ;
     }
+
     else if(pictureNumber == 4){
-        cout <<         "\n\t\t  ____________________________________  \n"
-                        "\t\t |       |                             \n"
-                        "\t\t |       |                             \n"
-                        "\t\t |       |                             \n"
-                        "\t\t |       O                             \n"
-                        "\t\t |      /|                            \n"
-                        "\t\t |                                     \n"
-                        "\t\t |                                     \n"
-                        "\t\t |____________________________________ \n\n\n" ;
-    }
-    else if(pictureNumber == 3){
         cout <<         "\n\t\t  ____________________________________  \n"
                         "\t\t |       |                            \n"
                         "\t\t |       |                             \n"
@@ -82,7 +76,7 @@ void dohoa(int pictureNumber){
                         "\t\t |                                     \n"
                         "\t\t |___________________________________  \n\n\n" ;
     }
-     else if(pictureNumber == 2){
+     else if(pictureNumber == 3){
         cout <<         "\n\t\t  ____________________________________  \n"
                         "\t\t |       |                            \n"
                         "\t\t |       |                             \n"
@@ -93,7 +87,7 @@ void dohoa(int pictureNumber){
                         "\t\t |                                     \n"
                         "\t\t |___________________________________  \n\n\n" ;
     }
-     else if(pictureNumber == 1){
+     else if(pictureNumber == 2){
         cout <<         "\n\t\t  ____________________________________  \n"
                         "\t\t |       |                            \n"
                         "\t\t |       |                             \n"
@@ -103,6 +97,30 @@ void dohoa(int pictureNumber){
                         "\t\t |                                     \n"
                         "\t\t |                                     \n"
                         "\t\t |___________________________________  \n\n\n" ;
+    }
+    else if(pictureNumber == 1)
+    {
+        cout <<         "\n\t\t  ____________________________________  \n"
+                        "\t\t |       |                            \n"
+                        "\t\t |       |                             \n"
+                        "\t\t |       |                             \n"
+                        "\t\t |                                     \n"
+                        "\t\t |                                     \n"
+                        "\t\t |                                     \n"
+                        "\t\t |                                     \n"
+                        "\t\t |____________________________________ \n\n\n" ;
+    }
+    else if(pictureNumber == 0)
+    {
+        cout <<         "\n\t\t  ____________________________________  \n"
+                        "\t\t |                                    \n"
+                        "\t\t |                                     \n"
+                        "\t\t |                                     \n"
+                        "\t\t |                                     \n"
+                        "\t\t |                                     \n"
+                        "\t\t |                                     \n"
+                        "\t\t |                                     \n"
+                        "\t\t |____________________________________ \n\n\n" ;
     }
 
 }
@@ -132,42 +150,74 @@ bool kiemTraDoanTu(string randomWord, char chuCaiDoan){
     return false;
 }
 
+bool checkNhapTrungKiTu(string tuDaDoan, char chuCaiDoan){
+    int size = tuDaDoan.length();
+    if(!size) return false;
+    for(int i =0 ;i<size;i++){
+        if(chuCaiDoan == tuDaDoan[i])
+            return true;
+    }
+    return false;
+}
+bool checkNhapChuCai(char chuCai){
+    if(chuCai >= 'a' && chuCai <= 'z')
+        return true;
+    else if(chuCai >= 'A' && chuCai <= 'Z')
+        return true;
+    else return false;
+}
 
 void mainGame(){
-    int  soLuotDoan = tongLuotChoi;
+    int  soLuotDoan = TONGLUOTCHOI;
     string wordRandom = randomWord() ;
 
     string tuKhoiTao = khoiTaoTu(wordRandom);
     char chuCaiDoan ;
     string tuDaDoan  ;
-    while(soLuotDoan >= 0)
+    while(soLuotDoan >= numberLose)
     {
         system("cls");
         cout << "\t\t\tWelcome to Game Hangman level: Easy\n\n\n";
         cout << "\tTu Doan :" << tuKhoiTao ;
         cout << "\t\t\tCac chu da doan: "<< tuDaDoan;
-        dohoa(tongLuotChoi-soLuotDoan);
+        dohoa(TONGLUOTCHOI-soLuotDoan);
+        if(tuKhoiTao == wordRandom)
+            {
+                cout << "\n\tCONGRATULATIONS! You WIN (^-^)" ;
+                break;
+
+            }
         if(!soLuotDoan){
             cout << "\tYou LOSE!.\n \tTu can doan la: "<< wordRandom;
             break;
         }
-        cout << "\n\tNHap chu cai doan: " ;
-        cin >> chuCaiDoan ;
-        tuDaDoan += chuCaiDoan;
+        while(true){
+            cout << "\n\tNHap chu cai doan: " ;
+            cin >> chuCaiDoan ;
+            if(chuCaiDoan >= 'A' && chuCaiDoan <= 'Z')
+                chuCaiDoan += 'a'-'A';
+            if(!checkNhapChuCai(chuCaiDoan)){
+                cout <<"\n\tChi nhap chu cai tu a-z.";
+            }
+            else if(!checkNhapTrungKiTu(tuDaDoan,chuCaiDoan))
+                break;
+            else cout << "\n\tChu cai nay ban da doan roi. Moi doan lai!";
+            continue;
+        }
+        tuDaDoan.push_back(chuCaiDoan);
         if(kiemTraDoanTu(wordRandom,chuCaiDoan))
         {
             tuKhoiTao = updateTuDoan(wordRandom,tuKhoiTao,chuCaiDoan);
-            if(tuKhoiTao != wordRandom)
             continue;
-            else cout << "\n\tCONGRATULATIONS! You WIN (^-^)\n" ;
         }
         else
         {
             --soLuotDoan;
             if(soLuotDoan)
             {
-                cout << "\tBan doan sai. Ban con " << soLuotDoan << " luot doan!\n";
+                cout << "\tBan doan sai. Ban con " << soLuotDoan << " luot doan Sai!\n";
             }
+            else continue;
 
         }
 
@@ -175,19 +225,33 @@ void mainGame(){
     }
     return;
 }
- void playAgain(char playGame){
-    if(playGame == 'y' || playGame == 'Y')
-        mainGame();
-    else system("out");
+
+bool playAgain(){
+    while(true){
+
+        cout << "\n\tBan muon choi lai khong? (y/n) " ;
+        char answer ;
+        cin >> answer ;
+        if(answer == 'y' || answer == 'Y')
+        return true;
+        else if(answer == 'n' || answer == 'N')
+        {
+        //cout << "\tBye! See you again.";
+        break;
+        }
+        else cout << "\tSai cu phap!";
+        continue;
+    }
+    return false;
 }
 
 int main() {
-    system("cls"); // cls la xoa toan bo man hinh
-    cout << "xx\n";
-    system("pause") ; // dung man hinh lai de nhin
-
-    mainGame();
-
-
+    listWordEnglish();
+    while(true){
+        mainGame();
+        if(playAgain())
+            continue;
+        else break;
+    }
 
 }
